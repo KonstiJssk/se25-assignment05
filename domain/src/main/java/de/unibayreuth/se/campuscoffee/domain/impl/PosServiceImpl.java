@@ -1,7 +1,10 @@
 package de.unibayreuth.se.campuscoffee.domain.impl;
 
+import de.unibayreuth.se.campuscoffee.data.persistence.UserRepository;
+import de.unibayreuth.se.campuscoffee.domain.exceptions.UserNotFoundException;
 import de.unibayreuth.se.campuscoffee.domain.model.Pos;
 import de.unibayreuth.se.campuscoffee.domain.exceptions.PosNotFoundException;
+import de.unibayreuth.se.campuscoffee.domain.model.User;
 import de.unibayreuth.se.campuscoffee.domain.ports.PosDataService;
 import de.unibayreuth.se.campuscoffee.domain.ports.PosService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PosServiceImpl implements PosService {
     private final PosDataService posDataService;
+    private final UserRepository userRepository;
+
 
     @Override
     public void clear() {
@@ -39,6 +44,14 @@ public class PosServiceImpl implements PosService {
     public Pos getByName(@NonNull String name) throws PosNotFoundException {
         return verifyPosExists(name);
     }
+    @Override
+    @NonNull
+    public User getByLogin(@NonNull String login) {
+        return userDataService.getByLogin(login)
+                .orElseThrow(() -> new RuntimeException("User with login \"" + login + "\" not found."));
+    }
+
+
 
     @Override
     @NonNull

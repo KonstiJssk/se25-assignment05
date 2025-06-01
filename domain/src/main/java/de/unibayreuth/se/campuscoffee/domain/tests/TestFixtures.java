@@ -19,7 +19,11 @@ public class TestFixtures {
     );
 
     // TODO: fill this list.
-    private static final List<User> USER_LIST = List.of();
+    private static final List<User> USER_LIST = List.of(
+            createUser("max", "max@uni.de", "Max", "Mustermann"),
+            createUser("anna", "anna@uni.de", "anna", "Maier"),
+            createUser("ben", "ben@uni.de", "ben", "Schmidt")
+    );
 
     public static List<Pos> getPosList() {
         return POS_LIST.stream()
@@ -41,6 +45,8 @@ public class TestFixtures {
 
     public static List<User> createUsers(UserService userService) {
         // TODO: implement this method
-        return List.of();
+        return getUserList().stream()
+                .map(userService::createUser)
+                .collect(Collectors.toList());
     }
 }
